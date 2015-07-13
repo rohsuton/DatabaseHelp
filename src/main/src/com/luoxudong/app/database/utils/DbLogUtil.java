@@ -68,8 +68,12 @@ public class DbLogUtil {
 	 * 定位代码位置，只能在该类内部使用
 	 */
 	private static String getStackTraceMsg() {
-		StackTraceElement stackTrace = Thread.currentThread().getStackTrace()[4];
-		String fileInfo = stackTrace.getFileName() + "(" + stackTrace.getLineNumber() + ") " + stackTrace.getMethodName();
+		String fileInfo = "";
+		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+		if (stackTraceElements != null && stackTraceElements.length > 4){
+			StackTraceElement stackTrace = stackTraceElements[4];
+			fileInfo = stackTrace.getFileName() + "(" + stackTrace.getLineNumber() + ") " + stackTrace.getMethodName();
+		}
 		return fileInfo;
 	}
 }
