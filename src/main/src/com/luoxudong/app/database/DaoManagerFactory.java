@@ -17,7 +17,6 @@ import java.util.Map;
 import com.luoxudong.app.database.exception.DatabaseException;
 import com.luoxudong.app.database.interfaces.IDaoManager;
 import com.luoxudong.app.database.manager.DaoManager;
-import com.luoxudong.app.singletonfactory.SingletonFactory;
 
 /** 
  * ClassName: DaoManagerFactory
@@ -44,13 +43,9 @@ public class DaoManagerFactory {
 	public static IDaoManager getDatabaseManagerInstance(String path)
 	{
 		IDaoManager result = null;
-		synchronized (SingletonFactory.class)
-		{
-			if (sDatabaseManagerCache == null)
-			{
-				sDatabaseManagerCache = Collections.synchronizedMap(new HashMap<String, IDaoManager>());
-			}
-			
+		
+		if (sDatabaseManagerCache == null){
+			sDatabaseManagerCache = Collections.synchronizedMap(new HashMap<String, IDaoManager>());
 		}
 		
 		synchronized (sDatabaseManagerCache)

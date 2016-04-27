@@ -45,6 +45,12 @@ public interface IDaoManager {
 	public DaoManager reOpenDatabase();
 	
 	/**
+	 * 删除表
+	 * @param clazz
+	 */
+	public <M extends BaseModel> void deleteTable(Class<M> entityClass);
+	
+	/**
 	 * 获取数据库对象
 	 * @param clazz
 	 * @param entityClass

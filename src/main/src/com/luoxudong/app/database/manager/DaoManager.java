@@ -13,6 +13,7 @@ import java.io.File;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.luoxudong.app.database.annotations.DbTables;
 import com.luoxudong.app.database.exception.DatabaseException;
 import com.luoxudong.app.database.interfaces.IBaseDao;
 import com.luoxudong.app.database.interfaces.IDaoManager;
@@ -102,6 +103,25 @@ public class DaoManager implements IDaoManager{
 	@Override
 	public SQLiteDatabase getDatabase() {
 		return mDatabase;
+	}
+	
+	@Override
+	public <M extends BaseModel> void deleteTable(Class<M> entityClass) {
+		DbTables tables = entityClass.getAnnotation(DbTables.class);
+		
+		String tableName = null;
+		
+		if (tables == null || tables.tableName() == null || "".equals(tables.tableName().trim())){//如果没有自定义表名则使用类名
+			tableName = entityClass.getSimpleName();
+		}else{
+			tableName = tables.tableName().trim();
+		}
+		
+		try {
+			mDatabase.execSQL("DROP TABLE IF EXISTS " + tableName);
+		} catch (Exception e) {
+		}
+		
 	}
 	
 	/**
